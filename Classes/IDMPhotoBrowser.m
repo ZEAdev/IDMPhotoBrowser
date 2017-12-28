@@ -506,6 +506,7 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 
 -(void)dismissManually {
     _isDismissingManually = YES;
+    [self setControlsHidden:NO animated:NO permanent:YES];
     [self doneButtonPressed:nil];
 }
 

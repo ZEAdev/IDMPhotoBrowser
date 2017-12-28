@@ -61,6 +61,7 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 	BOOL _rotating;
     BOOL _viewIsActive; // active as in it's in the view heirarchy
     BOOL _autoHide;
+    BOOL _isDismissingManually;
     NSInteger _initalPageIndex;
 
     BOOL _isdraggingPhoto;
@@ -503,6 +504,11 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 
 #pragma mark - Genaral
 
+-(void)dismissManually {
+    _isDismissingManually = YES;
+    [self doneButtonPressed:nil];
+}
+
 - (void)prepareForClosePhotoBrowser {
     // Gesture
     [_applicationWindow removeGestureRecognizer:_panGesture];
@@ -732,6 +738,10 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 - (BOOL)prefersStatusBarHidden {
     if(_forceHideStatusBar) {
         return YES;
+    }
+    
+    if (_isDismissingManually) {
+        return NO;
     }
 
     if(_isdraggingPhoto) {
